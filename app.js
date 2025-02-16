@@ -92,6 +92,32 @@ class App{
         } );
     }
     
+    showItems(id){
+        this.initAR();
+        
+        const loader = new GLTFLoader().setPath(this.assetsPath);
+        const self = this;
+        
+        this.loadingBar.visible = true;
+        
+        loader.load(
+            `pancake${id}.glb`,
+            function ( gltf ) {
+                self.scene.add( gltf.scene );
+                self.chair = gltf.scene;
+                self.chair.visible = false; 
+                self.loadingBar.visible = false;
+                self.renderer.setAnimationLoop( self.render.bind(self) );
+            },
+            function ( xhr ) {
+                self.loadingBar.progress = (xhr.loaded / xhr.total);
+            },
+            function ( error ) {
+                console.log( 'An error happened' );
+            }
+        );
+    }
+    
     initAR(){
         let currentSession = null;
         const self = this;

@@ -5,6 +5,11 @@
  */
 body {
   padding-top: 56px;
+  
+}
+.row {
+padding-top: 1%;
+
 }
 
 .ar-button{
