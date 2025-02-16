@@ -1,8 +1,8 @@
-import * as THREE from '/libs/three125/three.module.js';
-import { GLTFLoader } from '/libs/three/jsm/GLTFLoader.js';
-import { RGBELoader } from '/libs/three/jsm/RGBELoader.js';
-import { ARButton } from '/libs/ARButton.js';
-import { LoadingBar } from '/libs/LoadingBar.js';
+import * as THREE from '../../libs/three125/three.module.js';
+import { GLTFLoader } from '../../libs/three/jsm/GLTFLoader.js';
+import { RGBELoader } from '../../libs/three/jsm/RGBELoader.js';
+import { ARButton } from '../../libs/ARButton.js';
+import { LoadingBar } from '../../libs/LoadingBar.js';
 
 class App{
 	constructor(){
@@ -12,7 +12,7 @@ class App{
         this.loadingBar = new LoadingBar();
         this.loadingBar.visible = false;
 
-		this.assetsPath = '/assets/ar-shop/';
+		this.assetsPath = '../../assets/ar-shop/';
         
 		this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 20 );
 		this.camera.position.set( 0, 1.6, 0 );
@@ -45,20 +45,23 @@ class App{
         
 	}
     
-    setupXR() {
+    setupXR(){
         this.renderer.xr.enabled = true;
-    
-        if ('xr' in navigator) {
-            navigator.xr.isSessionSupported('immersive-ar').then((supported) => {
-                if (supported) {
+        
+        if ( 'xr' in navigator ) {
+
+			navigator.xr.isSessionSupported( 'immersive-ar' ).then( ( supported ) => {
+
+                if (supported){
                     const collection = document.getElementsByClassName("ar-button");
-                    [...collection].forEach(el => {
+                    [...collection].forEach( el => {
                         el.style.display = 'block';
                     });
                 }
-            });
-        }
-    
+			} );
+            
+		} 
+        
         const self = this;
         this.hitTestSourceRequested = false;
         this.hitTestSource = null;
@@ -120,7 +123,9 @@ class App{
             updateHitTest();
         });
     }
-     
+    
+    
+	
     resize(){
         this.camera.aspect = window.innerWidth / window.innerHeight;
     	this.camera.updateProjectionMatrix();
@@ -134,7 +139,7 @@ class App{
         
         const self = this;
         
-        loader.load( '/assets/hdr/venice_sunset_1k.hdr', ( texture ) => {
+        loader.load( '../../assets/hdr/venice_sunset_1k.hdr', ( texture ) => {
           const envMap = pmremGenerator.fromEquirectangular( texture ).texture;
           pmremGenerator.dispose();
 
@@ -145,7 +150,7 @@ class App{
         } );
     }
     
-	showItems(id){
+	showChair(id){
         this.initAR();
         
 		const loader = new GLTFLoader( ).setPath(this.assetsPath);
@@ -155,7 +160,8 @@ class App{
 		
 		// Load a glTF resource
 		loader.load(
-            pancake${id}.glb,
+			// resource URL
+			`pancake${id}.glb`,
 			// called when the resource is loaded
 			function ( gltf ) {
 
