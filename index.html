@@ -45,13 +45,15 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Cart</a>
-          </li>
+          <a class="nav-link" href="#">Home
+            <span class="sr-only">(current)</span>
+        </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Cart (<span id="cart-count">0</span>)</a>
+        </li>
+        
+    
         <!--
           <li class="nav-item">
             <a class="nav-link" href="#">Support</a>
@@ -135,13 +137,16 @@
                 <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
                 <p>View in AR -> </p>
                 <button class="ar-button" onclick="window.app.showChair(1);"><i class="fas fa-camera"></i></button>
+                <button class="btn btn-secondary" onclick="addToCart('Pancake', 400)">+</button>
+                <span id="pancake-count">0</span>
+                <button class="btn btn-secondary" onclick="removeFromCart('Pancake', 400)">-</button>
               </div>
             </div>
           </div>
 
           <div class="row">
             <div class="col-lg-4 col-md-6 mb-4">
-               <div class="card h-70">
+               <div class="card h-80">
                 <!--
                  <a href="#"><img class="card-img-top" src="/assets/ar-shop/pillar1.jpeg" alt=""></a>
                  --> 
@@ -156,10 +161,54 @@
                    <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
                    <p>View in AR -> </p>
                    <button class="ar-button" onclick="window.app.showChair(2);"><i class="fas fa-camera"></i></button>
+                   <br>
+                   <button class="btn btn-secondary" onclick="addToCart('Croissant', 300)">+</button>
+                   <span id="croissant-count">0</span>
+                   <button class="btn btn-secondary" onclick="removeFromCart('Croissant', 300)">-</button>
                  </div>
                </div>
              </div>
-       
+             <button class="call btn btn-primary mt-3 mb-3" >Call Captain</button>
+             <script>
+              let cart = {};
+              let cartCount = 0;
+          
+              function updateCartDisplay(item) {
+                  document.getElementById(`${item.toLowerCase()}-count`).innerText = cart[item] || 0;
+                  document.getElementById("cart-count").innerText = cartCount;
+                  displayCartItems();
+              }
+          
+              function addToCart(item, price) {
+                  if (!cart[item]) {
+                      cart[item] = 0;
+                  }
+                  cart[item]++;
+                  cartCount++;
+                  updateCartDisplay(item);
+              }
+          
+              function removeFromCart(item, price) {
+                  if (cart[item] && cart[item] > 0) {
+                      cart[item]--;
+                      cartCount--;
+                      updateCartDisplay(item);
+                  }
+              }
+          
+              function displayCartItems() {
+                  const cartItemsElement = document.getElementById("cart-items");
+                  cartItemsElement.innerHTML = "";
+                  for (let item in cart) {
+                      if (cart[item] > 0) {
+                          const li = document.createElement("li");
+                          li.textContent = `${item}: ${cart[item]}`;
+                          cartItemsElement.appendChild(li);
+                      }
+                  }
+              }
+          </script>
+          
         <!-- /.row -->
 
       </div>

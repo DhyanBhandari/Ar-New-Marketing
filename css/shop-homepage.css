@@ -5,13 +5,21 @@
  */
 body {
   padding-top: 56px;
+  background-color: black;
   
+}
+.my-4{
+color: aliceblue;
 }
 .row {
 padding-top: 1%;
-
+justify-content: center;
+align-items: center;
 }
-
+.call{
+  padding-bottom: 2%;
+  
+}
 .ar-button{
     display: none;
     width: 40px;
